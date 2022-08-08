@@ -8,7 +8,7 @@ public class Main {
     private static Double firstNum;
     private static Double secondNum;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MaxValueException {
         Scanner input = new Scanner(System.in);
 
         System.out.println("Let's enter your first number:");
@@ -43,15 +43,23 @@ public class Main {
 
     }
 
-    public static void returnResult(Number result) {
-        System.out.println("Your result is " + result);
+    public static void returnResult(Number result) throws MaxValueException {
+        if (result.intValue()>100) {
+            throw new MaxValueException("Your result is bigger than 1oo");
+        }
+        else {
+        System.out.println("Your result is " + result);}
     }
 
-    public static void resultDivision(Double result) {
-        System.out.println("Your result is " + result);
+    public static void resultDivision(Double result) throws MaxValueException{
+        if (result.intValue()>100) {
+        throw new MaxValueException("Your result is bigger than 1oo");
+            }
+        else {
+        System.out.println("Your result is " + result);}
     }
 
-    public static void process(char operator, FunctionsCalculator calculator) {
+    public static void process(char operator, FunctionsCalculator calculator) throws MaxValueException {
         switch (operator) {
             case '+':
                 res = calculator.addition(firstNum, secondNum);
