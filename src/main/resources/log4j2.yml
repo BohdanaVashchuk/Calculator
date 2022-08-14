@@ -1,0 +1,80 @@
+Configuration:
+  Properties:
+    Property:
+      name: logger
+      value: logs_folder
+
+  Appenders:
+    Console:
+      - name: myConsole
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        Filters:
+          ThresholdFilter:
+            level: error
+            onMatch: DENY
+            onMismatch: NEUTRAL
+
+    File:
+      -
+        name: myFile
+        fileName: ${logger}/log_file.log
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        Filters:
+          ThresholdFilter:
+            level: warn
+            onMatch: DENY
+            onMismatch: NEUTRAL
+
+    RollingFile:
+      -
+        name: rolFile
+        fileName: ${logger}/rollingFile.log
+        filePattern: ${logger}/archive/rolFile-%d{yy-MM-dd}.log
+        PatternLayout:
+         pattern: "[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg %xEx{short}%n"
+        CronTriggeringPolicy:
+         schedule: "0 15 10 ? * *"
+         evaluateOnStartup: true
+        Filters:
+          ThresholdFilter:
+            level: error
+            onMatch: DENY
+            onMismatch: NEUTRAL
+
+      -
+        name: rolFileData
+        fileName: ${logger}/rollingFileData.log
+        filePattern: ${logger}/archive/rolFileData-%d{yy-MM-dd}.log
+        PatternLayout:
+          pattern: "[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg %xEx{short}%n"
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 100B
+
+      - name: rolFileTime
+        fileName: ${logger}/rollingFileTime.log
+        filePattern: ${logger}/archive/rolFileTime-%d{yy-MM-dd}.log
+        PatternLayout:
+          pattern: "[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg %xEx{short}%n"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 23
+            modulate: true
+
+  Loggers:
+    Root:
+      level: all
+      AppenderRef:
+        - ref: myFile
+          level: info
+        - ref: rolFileTime
+          level: all
+        - ref: myConsole
+          level: warn
+        - ref: rolFile
+          level: all
+        - ref: rolFileData
+          level: info
+

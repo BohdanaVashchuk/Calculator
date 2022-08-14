@@ -1,8 +1,14 @@
 package com.company;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Scanner;
 
+
 public class Main {
+    final static Logger logger = LogManager.getLogger(Main.class);
     private static Number res;
     private static Double resultOfDivision;
     private static Double firstNum;
@@ -11,7 +17,12 @@ public class Main {
     public static void main(String[] args) throws MaxValueException {
         Scanner input = new Scanner(System.in);
 
-        System.out.println("Let's enter your first number:");
+        logger.debug("Let's enter your first number:");
+        logger.info("Let's enter your first number:");
+        logger.warn("Let's enter your first number:");
+        logger.error("Let's enter your first number:");
+        logger.fatal("Let's enter your first number:");
+
         try {
             firstNum = input.nextDouble();
         } catch (Exception exception){
@@ -19,10 +30,10 @@ public class Main {
             System.exit(0);
         }
 
-        System.out.println("Select an operator for further calculation: +, -, *, or /\"" + " We are working just with mentioned list of operators");
+        logger.info("Select an operator for further calculation: +, -, *, or /\"" + " We are working just with mentioned list of operators");
         char operator = input.next().charAt(0);
 
-        System.out.println("Let's enter your second integer number:");
+        logger.info("Let's enter your second integer number:");
         try {
             secondNum = input.nextDouble();
         }catch (Exception exception){
